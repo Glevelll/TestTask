@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Авторизация</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #F5F5F5; 
+            }
+    
+            h1 {
+                text-align: center;
+            }
+    
+            form {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+    
+            input[type="text"],
+            input[type="password"],
+            input[type="submit"],
+            a {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+    
+            input[type="submit"] {
+                background-color: #4CAF50;
+                color: white;
+                cursor: pointer;
+            }
+    
+            .error {
+                color: red;
+            }
+        </style>
+    </head>
+<body>
+    <h1>Авторизация</h1>
+    <form id="authForm">
+        <input type="text" id="username" placeholder="Имя пользователя" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <input type="submit" value="Ок">
+        <a href="registration.html">Регистрация</a>
+
+        <div class="error" id="errorMessage"></div>
+    </form>
+
+    <script>
+    const authForm = document.getElementById('authForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('errorMessage');
+
+    authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+
+        const data = {
+            username,
+            password
+        };
+
+        fetch('http://localhost:8082/accounts/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // Обработка JSON-ответа
+                } else {
+                    throw new Error('Ошибка');
+                }
+            })
+            .then(loginResponse => {
+                // Полученные данные из JSON-ответа
+                const userId = loginResponse.id;
+                const username = loginResponse.username;
+
+                // Передача данных в окно main.html
+                const url = `Main.html?userId=${userId}&username=${username}`;
+                window.location.href = url;
+            })
+            .catch(error => {
+                errorMessage.textContent = 'Неверный логин или пароль';
+                console.error('Error:', error);
+            });
+    });
+</script>
+</body>
+</html>
