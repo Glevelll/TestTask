@@ -51,4 +51,24 @@ public class Url {
     public void setUser(Account user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Url{" +
+                "id=" + id +
+                ", originalUrl='" + originalUrl + '\'' +
+                ", shortUrl='" + shortUrl + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
+
+    public Url(String originalUrl, String shortUrl, Account user) {
+        this.originalUrl = originalUrl;
+        this.shortUrl = shortUrl;
+        this.user = user;
+    }
+    public Url(){
+        super();
+    }
 }

@@ -1,16 +1,14 @@
 package com.example.test.account;
 
 import com.example.test.account.DTO.LoginRequest;
+import com.example.test.account.DTO.LoginResponse;
 import com.example.test.account.DTO.RegisterRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/accounts")
 public class AccountController {
     private final AccountService accountService;
 
@@ -19,6 +17,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
+    @ResponseBody
     public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest) {
         try {
             Account account = accountService.register(registerRequest.getUsername(), registerRequest.getPassword());
@@ -29,10 +28,12 @@ public class AccountController {
     }
 
     @PostMapping("/login")
+    @ResponseBody
     public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
         try {
             Account account = accountService.login(loginRequest.getUsername(), loginRequest.getPassword());
-            return new ResponseEntity<>(account, HttpStatus.OK);
+            LoginResponse loginResponse = new LoginResponse(account.getId(), account.getUsername());
+            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
