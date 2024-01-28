@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+//Класс для представления таблицы url
 @Setter
 @Getter
 @Entity

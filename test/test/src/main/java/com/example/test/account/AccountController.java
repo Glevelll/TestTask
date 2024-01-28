@@ -16,6 +16,8 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    // Метод с аннотацией @PostMapping обрабатывает POST-запросы на эндпоинте "/register"
+    // с целью регистрации (Создания) нового пользователя
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest) {
@@ -27,6 +29,9 @@ public class AccountController {
         }
     }
 
+    // Метод с аннотацией @PostMapping обрабатывает POST-запросы на эндпоинте "/login"
+    // с целью авторизации пользователя. Также, он возвращает в качестве ответа
+    // id и username пользователя, если авторизация была успешна
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
